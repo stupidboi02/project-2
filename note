@@ -1,0 +1,3 @@
+ "CONNACK" là một loại gói tin được sử dụng để xác nhận kết nối giữa 1 client và 1 broker.
+ "username" the username required by your broker.
+ "keepalive": sau 1 khoang thoi gian khong hoat dong client se gui den broker 1 tin hieu de broker khong ngat ket noi

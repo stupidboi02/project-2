@@ -1,0 +1,48 @@
+h1 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#btnOn,
+#btnOff {
+    padding: 20px 40px;
+    margin: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: large;
+}
+
+#btnOn {
+    background-color: #dedede;
+    color: white;
+}
+
+#btnOff {
+    background-color: #dedede;
+    color: white;
+}
+
+#btnOn.active {
+    background-color: #008CBA;
+}
+
+#btnOff.active {
+    background-color: #008CBA;
+}
+
+#mqttMode {
+    background-color: #dedede;
+}
+
+#sensorMode {
+    background-color: #dedede;
+}
+
+#mqttMode.active {
+    background-color: #008ccc;
+}
+
+#sensorMode.active {
+    background-color: #008ccc;
+}

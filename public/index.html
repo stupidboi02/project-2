@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LED Control</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="input.css">
+</head>
+
+<body>
+    <div class="flex items-center justify-center">
+        <h1 class="font-bold text-3xl">Điều khiển đèn LED</h1>
+    </div>
+    <div class=" flex items-center justify-center">
+        <button id="btnOn">Bật đèn</button>
+        <button id="btnOff">Tắt đèn</button>
+    </div>
+    <div class="flex items-center justify-center min-h-[60vh] relative">
+        <div class="text-2xl font-bold">Đổi chế độ</div>
+        <button id="mqttMode" class="text-xl m-8 p-5 items-center border-none w-100 h-100 rounded-full">MQTT
+            Mode</button>
+        <button id="sensorMode" class="text-xl m-8 p-5 items-center border-none w-100 h-100 rounded-full">Sensor
+            Mode</button>
+    </div>
+
+    <script>
+        const btnOn = document.getElementById('btnOn');
+        const btnOff = document.getElementById('btnOff');
+
+        const handleClick = async (state) => {
+            try {
+                const response = await fetch(`/api/publish/${state}`, {
+                    method: 'POST'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const result = await response.text();
+                console.log(result);
+            } catch (err) {
+                console.log('There was a problem with the fetch operation:', err);
+            }
+        };
+
+        btnOn.addEventListener("click", async () => {
+            await handleClick("on");
+            btnOn.classList.add('active');
+            btnOff.classList.remove('active');
+        });
+
+        btnOff.addEventListener("click", async () => {
+            await handleClick("off");
+            btnOff.classList.add('active');
+            btnOn.classList.remove('active');
+        });
+
+        const mqttMode = document.getElementById('mqttMode')
+        const sensorMode = document.getElementById('sensorMode')
+        const changeMode = async (mode) => {
+            try {
+                const response = await fetch(`/api/mode/${mode}`, {
+                    method: 'POST'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const result = await response.text();
+                console.log(result);
+            } catch (err) {
+                console.log('There was a problem with the fetch operation:', err);
+            }
+        }
+
+        mqttMode.addEventListener("click", async () => {
+            await changeMode("mqtt")
+            mqttMode.classList.add('active')
+            sensorMode.classList.remove('active')
+        })
+        sensorMode.addEventListener("click", async () => {
+            await changeMode("sensor")
+            btnOn.classList.remove('active');
+            btnOff.classList.remove('active');
+            mqttMode.classList.remove('active')
+            sensorMode.classList.add('active');
+        })
+    </script>
+</body>
+
+</html>
